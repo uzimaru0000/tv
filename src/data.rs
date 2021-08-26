@@ -94,6 +94,14 @@ impl<'a> Display for Data<'a> {
 			.join("|");
 		write!(f, "|{}|\n", title_str)?;
 
+		let border = pads
+			.clone()
+			.iter()
+			.map(|&x| "-".repeat(x))
+			.collect::<Vec<_>>()
+			.join("|");
+		write!(f, "|{}|\n", border)?;
+
 		values
 			.into_iter()
 			.map(|xs|

@@ -51,3 +51,12 @@ $ tv test.csv
 | 32|  en|hugehuge|
 
 ```
+
+## How to install
+
+### For MacOS
+
+```bash
+$ brew tap uzimaru0000/tv
+$ brew install uzimaru0000/tv/tv
+```

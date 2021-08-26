@@ -3,6 +3,8 @@ use std::{collections::HashMap, fmt::Display};
 use crate::utils::Transpose;
 use anyhow::{Context, Result};
 
+use unicode_width::UnicodeWidthStr;
+
 type Json<'a> = HashMap<&'a str, serde_json::Value>;
 
 #[derive(Debug)]
@@ -74,7 +76,7 @@ impl<'a> Data<'a> {
 			.zip(keys)
 			.map(|(mut xs, k)| {
 				xs.push(&k);
-				xs.into_iter().map(|x| x.len()).max().unwrap_or_default()
+				xs.into_iter().map(|x| x.width()).max().unwrap_or_default()
 			})
 			.collect::<Vec<_>>()
 	}
@@ -108,7 +110,7 @@ impl<'a> Display for Data<'a> {
 				xs
 					.iter()
 					.zip(pads.clone())
-					.map(|(x, pad)| format!("{:>width$}", x, width = pad))
+					.map(|(x, pad)| format!("{}{}", " ".repeat(pad - x.width()), x))
 					.collect::<Vec<_>>()
 					.join("|")
 			)

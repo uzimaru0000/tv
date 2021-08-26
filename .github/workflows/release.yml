@@ -53,11 +53,11 @@ jobs:
           use-cross: true
 
       - run: |
-          zip --junk-paths slack-stream-json-${{ matrix.target }} target/${{ matrix.target }}/release/slack-stream-json{,.exe}
+          zip --junk-paths tv-${{ matrix.target }} target/${{ matrix.target }}/release/tv{,.exe}
       - uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.target }}
-          path: slack-stream-json-${{ matrix.target }}.zip
+          path: tv-${{ matrix.target }}.zip
 
   create-release:
     needs: [build]
@@ -103,6 +103,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.upload-url.outputs.url }}
-          asset_path: ./build-${{ matrix.target }}/slack-stream-json-${{ matrix.target }}.zip
-          asset_name: slack-stream-json-${{ matrix.target }}.zip
+          asset_path: ./build-${{ matrix.target }}/tv-${{ matrix.target }}.zip
+          asset_name: tv-${{ matrix.target }}.zip
           asset_content_type: application/zip

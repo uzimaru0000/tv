@@ -59,6 +59,5 @@ $ tv test.csv
 ### For MacOS
 
 ```bash
-$ brew tap uzimaru0000/tv
-$ brew install uzimaru0000/tv/tv
+$ brew install uzimaru0000/tap/tv
 ```

@@ -16,7 +16,15 @@ impl<'a, 'b> Application<'a, 'b> {
             .version(env!("CARGO_PKG_VERSION"))
             .author(env!("CARGO_PKG_AUTHORS"))
             .about("Format json and csv into table view")
-            .arg(Arg::with_name("PATH").help("").index(1));
+            .arg(Arg::with_name("PATH").help("json, csv file path").index(1))
+            .arg(
+                Arg::with_name("sort")
+                    .short("s")
+                    .long("sort")
+                    .value_name("SORT_KEY")
+                    .help("Options for sorting by key")
+                    .takes_value(true),
+            );
 
         Self { app }
     }
@@ -40,7 +48,12 @@ impl<'a, 'b> Application<'a, 'b> {
             None => input::read_stdin().await,
         }?;
 
-        let data = data::Data::from(&raw)?;
+        let mut data = data::Data::from(&raw)?;
+        let sort_key = matcher.value_of("sort");
+        if let Some(key) = sort_key {
+            data.set_sort_key(key);
+        }
+
         println!("{}", data);
 
         Ok(())

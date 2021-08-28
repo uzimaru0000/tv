@@ -6,8 +6,8 @@ CARGO=`toml set Cargo.toml package.version $NEXT_VER`
 echo "$CARGO" > Cargo.toml
 
 git add .
-git commit -m ":tada: release $NEXT_VER"
-git tag -a $NEXT_VER -m "release $NEXT_VER"
+git commit -m ":bookmark: release $NEXT_VER"
+git tag -a v$NEXT_VER -m "release $NEXT_VER"
 
 git-chglog --output CHANGELOG.md
 git add .

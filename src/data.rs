@@ -11,6 +11,7 @@ type Json<'a> = HashMap<&'a str, serde_json::Value>;
 pub struct Data<'a> {
     data: Vec<Json<'a>>,
     sort_key: Option<&'a str>,
+    is_plane: bool,
 }
 
 impl<'a> Data<'a> {
@@ -21,13 +22,19 @@ impl<'a> Data<'a> {
             Ok(vec) => Ok(Self {
                 data: vec,
                 sort_key: None,
+                is_plane: false,
             }),
             Err(_) => Self::csv(s),
         }
     }
 
-    pub fn set_sort_key(&mut self, s: &'a str) -> &mut Self {
-        self.sort_key = Some(s);
+    pub fn set_sort_key(&mut self, s: Option<&'a str>) -> &mut Self {
+        self.sort_key = s;
+        self
+    }
+
+    pub fn set_is_plane(&mut self, p: bool) -> &mut Self {
+        self.is_plane = p;
         self
     }
 
@@ -50,6 +57,7 @@ impl<'a> Data<'a> {
         Ok(Self {
             data: maps,
             sort_key: None,
+            is_plane: false,
         })
     }
 
@@ -120,22 +128,26 @@ impl<'a> Display for Data<'a> {
         let keys = self.keys();
         let values = self.values();
         let pads = self.pads();
+        let separator = if self.is_plane { "\t" } else { "|" };
+        let frame = if self.is_plane { "" } else { "|" };
 
         let title_str = keys
             .iter()
             .zip(pads.clone())
             .map(|(x, pad)| format!("{:>width$}", x, width = pad))
             .collect::<Vec<_>>()
-            .join("|");
-        write!(f, "|{}|\n", title_str)?;
+            .join(separator);
+        write!(f, "{}{}{}\n", frame, title_str, frame)?;
 
-        let border = pads
-            .clone()
-            .iter()
-            .map(|&x| "-".repeat(x))
-            .collect::<Vec<_>>()
-            .join("|");
-        write!(f, "|{}|\n", border)?;
+        if !self.is_plane {
+            let border = pads
+                .clone()
+                .iter()
+                .map(|&x| "-".repeat(x))
+                .collect::<Vec<_>>()
+                .join(separator);
+            write!(f, "{}{}{}\n", frame, border, frame)?;
+        }
 
         values
             .into_iter()
@@ -144,8 +156,8 @@ impl<'a> Display for Data<'a> {
                     .zip(pads.clone())
                     .map(|(x, pad)| format!("{}{}", " ".repeat(pad - x.width()), x))
                     .collect::<Vec<_>>()
-                    .join("|")
+                    .join(separator)
             })
-            .try_for_each(|x| write!(f, "|{}|\n", x))
+            .try_for_each(|x| write!(f, "{}{}{}\n", frame, x, frame))
     }
 }

@@ -8,10 +8,33 @@ use unicode_width::UnicodeWidthStr;
 type Json<'a> = HashMap<&'a str, serde_json::Value>;
 
 #[derive(Debug)]
+pub enum Align {
+    None,
+    Left,
+    Center,
+    Right,
+}
+
+impl Align {
+    pub fn new(s: String) -> Self {
+        match s.to_lowercase().as_str() {
+            "l" => Self::Left,
+            "left" => Self::Left,
+            "c" => Self::Center,
+            "center" => Self::Center,
+            "r" => Self::Right,
+            "right" => Self::Right,
+            _ => Self::None,
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct Data<'a> {
     data: Vec<Json<'a>>,
     sort_key: Option<&'a str>,
     is_plane: bool,
+    align: Align,
 }
 
 impl<'a> Data<'a> {
@@ -23,6 +46,7 @@ impl<'a> Data<'a> {
                 data: vec,
                 sort_key: None,
                 is_plane: false,
+                align: Align::None,
             }),
             Err(_) => Self::csv(s),
         }
@@ -35,6 +59,11 @@ impl<'a> Data<'a> {
 
     pub fn set_is_plane(&mut self, p: bool) -> &mut Self {
         self.is_plane = p;
+        self
+    }
+
+    pub fn set_align(&mut self, a: Align) -> &mut Self {
+        self.align = a;
         self
     }
 
@@ -58,6 +87,7 @@ impl<'a> Data<'a> {
             data: maps,
             sort_key: None,
             is_plane: false,
+            align: Align::None,
         })
     }
 
@@ -143,7 +173,7 @@ impl<'a> Display for Data<'a> {
             let border = pads
                 .clone()
                 .iter()
-                .map(|&x| "-".repeat(x))
+                .map(|&x| md_table_align(x, &self.align))
                 .collect::<Vec<_>>()
                 .join(separator);
             write!(f, "{}{}{}\n", frame, border, frame)?;
@@ -154,10 +184,32 @@ impl<'a> Display for Data<'a> {
             .map(|xs| {
                 xs.iter()
                     .zip(pads.clone())
-                    .map(|(x, pad)| format!("{}{}", " ".repeat(pad - x.width()), x))
+                    .map(|(x, pad)| cell_view(x, pad, &self.align))
                     .collect::<Vec<_>>()
                     .join(separator)
             })
             .try_for_each(|x| write!(f, "{}{}{}\n", frame, x, frame))
+    }
+}
+
+fn md_table_align(width: usize, align: &Align) -> String {
+    match align {
+        Align::None => "-".repeat(width),
+        Align::Left => format!(":{}", "-".repeat(width - 1)),
+        Align::Center => format!(":{}:", "-".repeat(width - 2)),
+        Align::Right => format!("{}:", "-".repeat(width - 1)),
+    }
+}
+
+fn cell_view(v: &String, width: usize, align: &Align) -> String {
+    match align {
+        Align::None | Align::Right => format!("{}{}", " ".repeat(width - v.width()), v),
+        Align::Left => format!("{}{}", v, " ".repeat(width - v.width())),
+        Align::Center => {
+            let pad = (width - v.width()) as f32 / 2.0;
+            let left_pad = pad.ceil() as usize;
+            let right_pad = pad.floor() as usize;
+            format!("{}{}{}", " ".repeat(left_pad), v, " ".repeat(right_pad))
+        }
     }
 }

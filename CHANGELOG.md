@@ -1,6 +1,27 @@
 
-<a name="0.1.2"></a>
-## [0.1.2](https://github.com/uzimaru0000/tv/compare/v0.1.1...0.1.2)
+<a name="v0.2.0"></a>
+## [v0.2.0](https://github.com/uzimaru0000/tv/compare/v0.1.3...v0.2.0)
+
+> 2021-08-29
+
+### Pull Requests
+
+* Merge pull request [#13](https://github.com/uzimaru0000/tv/issues/13) from uzimaru0000/feature/align
+* Merge pull request [#12](https://github.com/uzimaru0000/tv/issues/12) from uzimaru0000/feature/simple-display
+
+
+<a name="v0.1.3"></a>
+## [v0.1.3](https://github.com/uzimaru0000/tv/compare/v0.1.2...v0.1.3)
+
+> 2021-08-29
+
+### Pull Requests
+
+* Merge pull request [#11](https://github.com/uzimaru0000/tv/issues/11) from uzimaru0000/feature/sort-option
+
+
+<a name="v0.1.2"></a>
+## [v0.1.2](https://github.com/uzimaru0000/tv/compare/v0.1.1...v0.1.2)
 
 > 2021-08-28
 

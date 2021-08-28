@@ -2,6 +2,8 @@ use anyhow::Result;
 use clap::{App, Arg};
 use tokio::io::BufReader;
 
+use crate::data::Align;
+
 mod data;
 mod input;
 mod utils;
@@ -30,6 +32,15 @@ impl<'a, 'b> Application<'a, 'b> {
                     .short("p")
                     .long("plane")
                     .help("Do not Display border"),
+            )
+            .arg(
+                Arg::with_name("align")
+                    .short("a")
+                    .long("align")
+                    .value_name("left | center | right | none")
+                    .help("Table alignment")
+                    .takes_value(true)
+                    .default_value("none"),
             );
 
         Self { app }
@@ -54,11 +65,18 @@ impl<'a, 'b> Application<'a, 'b> {
             None => input::read_stdin().await,
         }?;
 
+        let sort_key = matcher.value_of("sort");
         let is_plane = matcher.is_present("plane");
+        let align = matcher
+            .value_of("align")
+            .map(String::from)
+            .map(Align::new)
+            .unwrap_or(Align::None);
 
         let mut data = data::Data::from(&raw)?;
-        let sort_key = matcher.value_of("sort");
-        data.set_sort_key(sort_key).set_is_plane(is_plane);
+        data.set_sort_key(sort_key)
+            .set_is_plane(is_plane)
+            .set_align(align);
 
         println!("{}", data);
 

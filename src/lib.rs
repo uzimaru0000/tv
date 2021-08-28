@@ -24,6 +24,12 @@ impl<'a, 'b> Application<'a, 'b> {
                     .value_name("SORT_KEY")
                     .help("Options for sorting by key")
                     .takes_value(true),
+            )
+            .arg(
+                Arg::with_name("plane")
+                    .short("p")
+                    .long("plane")
+                    .help("Do not Display border"),
             );
 
         Self { app }
@@ -48,11 +54,11 @@ impl<'a, 'b> Application<'a, 'b> {
             None => input::read_stdin().await,
         }?;
 
+        let is_plane = matcher.is_present("plane");
+
         let mut data = data::Data::from(&raw)?;
         let sort_key = matcher.value_of("sort");
-        if let Some(key) = sort_key {
-            data.set_sort_key(key);
-        }
+        data.set_sort_key(sort_key).set_is_plane(is_plane);
 
         println!("{}", data);
 

@@ -37,7 +37,7 @@ impl<'a, 'b> Application<'a, 'b> {
                 Arg::with_name("align")
                     .short("a")
                     .long("align")
-                    .value_name("left|center|right|none")
+                    .value_name("left | center | right | none")
                     .help("Table alignment")
                     .takes_value(true)
                     .default_value("none"),

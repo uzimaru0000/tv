@@ -12,6 +12,8 @@ git add .
 git commit -m ":bookmark: release $NEXT_VER"
 git tag -a v$NEXT_VER -m "release $NEXT_VER"
 
+cargo c
 git-chglog --output CHANGELOG.md
+
 git add .
 git commit -m ":books: update CHANGELOG.md"

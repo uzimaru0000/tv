@@ -8,12 +8,9 @@ CARGO=`toml set Cargo.toml package.version $NEXT_VER`
 
 echo "$CARGO" > Cargo.toml
 
-git add .
-git commit -m ":bookmark: release $NEXT_VER"
-git tag -a v$NEXT_VER -m "release $NEXT_VER"
-
 cargo c
-git-chglog --output CHANGELOG.md
+git-chglog --output CHANGELOG.md --next-tag v$NEXT_VER
 
-git add .
-git commit -m ":books: update CHANGELOG.md"
+git add Cargo.toml Cargo.lock CHANGELOG.md
+git commit -m ":bookmark: release v$NEXT_VER"
+git tag -a v$NEXT_VER -m "release v$NEXT_VER"

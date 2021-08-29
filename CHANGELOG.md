@@ -1,4 +1,15 @@
 
+<a name="v0.2.1"></a>
+## [v0.2.1](https://github.com/uzimaru0000/tv/compare/v0.2.0...v0.2.1)
+
+> 2021-08-30
+
+### Pull Requests
+
+* Merge pull request [#18](https://github.com/uzimaru0000/tv/issues/18) from uzimaru0000/fix/title-align
+* Merge pull request [#15](https://github.com/uzimaru0000/tv/issues/15) from uzimaru0000/add-license
+
+
 <a name="v0.2.0"></a>
 ## [v0.2.0](https://github.com/uzimaru0000/tv/compare/v0.1.3...v0.2.0)
 

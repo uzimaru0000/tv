@@ -1,6 +1,6 @@
 [package]
 name = "tv"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["uzimaru0000 <shuji365630@gmail.com>"]
 edition = "2018"
 

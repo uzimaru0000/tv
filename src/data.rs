@@ -164,7 +164,7 @@ impl<'a> Display for Data<'a> {
         let title_str = keys
             .iter()
             .zip(pads.clone())
-            .map(|(x, pad)| format!("{:>width$}", x, width = pad))
+            .map(|(x, pad)| cell_view(x, pad, &self.align))
             .collect::<Vec<_>>()
             .join(separator);
         write!(f, "{}{}{}\n", frame, title_str, frame)?;

@@ -1,5 +1,8 @@
+use crate::application::Application;
 use anyhow::Result;
-use tv::Application;
+
+mod application;
+mod input;
 
 #[tokio::main]
 async fn main() -> Result<()> {

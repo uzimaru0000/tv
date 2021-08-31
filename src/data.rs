@@ -13,7 +13,7 @@ enum Json {
     Value(serde_json::Value),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Align {
     None,
     Left,
@@ -36,15 +36,15 @@ impl Align {
 }
 
 #[derive(Debug)]
-pub struct Data<'a> {
+pub struct Data {
     data: Vec<Json>,
-    sort_key: Option<&'a str>,
+    sort_key: Option<String>,
     is_plane: bool,
     align: Align,
 }
 
-impl<'a> Data<'a> {
-    pub fn from(s: &'a str) -> Result<Self> {
+impl Data {
+    pub fn from(s: &str) -> Result<Self> {
         serde_json::from_str::<Vec<Json>>(s)
             .map(|x| Self {
                 data: x,
@@ -55,7 +55,7 @@ impl<'a> Data<'a> {
             .context("unsupported format")
     }
 
-    pub fn set_sort_key(&mut self, s: Option<&'a str>) -> &mut Self {
+    pub fn set_sort_key(&mut self, s: Option<String>) -> &mut Self {
         self.sort_key = s;
         self
     }
@@ -83,11 +83,11 @@ impl<'a> Data<'a> {
     fn values(&self) -> Vec<Vec<String>> {
         let keys = self.keys();
 
-        let data = if let Some(key) = self.sort_key {
+        let data = if let Some(key) = self.sort_key.clone() {
             let mut data = self.data.clone();
             data.sort_by_cached_key(|x| match x {
                 Json::Object(obj) => obj
-                    .get(key)
+                    .get(&key)
                     .as_deref()
                     .unwrap_or(&serde_json::Value::default())
                     .to_string(),
@@ -139,7 +139,7 @@ impl<'a> Data<'a> {
     }
 }
 
-impl<'a> Display for Data<'a> {
+impl Display for Data {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let keys = self.keys();
         let values = self.values();

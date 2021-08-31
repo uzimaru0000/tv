@@ -1,0 +1,23 @@
+
+
+# ==================== Emojis ====================
+# ✨  :sparkles: New Feature
+# 🐛  :bug: Bagfix
+# ♻️   :recycle: Refactoring
+# 🐎  :horse: Performance
+# 📚  :books: Documentation
+# 🔧  :wrench: Tooling
+# 🚨  :rotating_light: Tests
+# 💩  :hankey: Deprecation
+# 🗑️  :wastebasket: Removal
+# 🚧  :construction: WIP(Work In Progress)
+# ✎   :pencil2: Typo Fix
+# 👷  :construction_worker: Adding CI System
+# 💚  :green_heart: Fixing CI Build
+# watch more (https://gitmoji.carloscuesta.me)
+
+
+# ==================== Format ====================
+# :emoji: Subject
+#
+# Commit body...

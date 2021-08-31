@@ -5,20 +5,20 @@ info:
   repository_url: https://github.com/uzimaru0000/tv
 options:
   commits:
-    # filters:
-    #   Type:
-    #     - feat
-    #     - fix
-    #     - perf
-    #     - refactor
+    filters:
+      Type:
+        - sparkles
+        - bug
+        - horse
+        - recycle
   commit_groups:
-    # title_maps:
-    #   feat: Features
-    #   fix: Bug Fixes
-    #   perf: Performance Improvements
-    #   refactor: Code Refactoring
+    title_maps:
+      sparkles: Features
+      bug: Bug Fixes
+      horse: Performance Improvements
+      recycle: Code Refactoring
   header:
-    pattern: "^(\\w*)\\:\\s(.*)$"
+    pattern: "^:(\\w*)\\:\\s(.*)$"
     pattern_maps:
       - Type
       - Subject

@@ -18,7 +18,7 @@ impl<'a, 'b> Application<'a, 'b> {
             .version(env!("CARGO_PKG_VERSION"))
             .author(env!("CARGO_PKG_AUTHORS"))
             .about("Format json and csv into table view")
-            .arg(Arg::with_name("PATH").help("json, csv file path").index(1))
+            .arg(Arg::with_name("PATH").help("json file path").index(1))
             .arg(
                 Arg::with_name("sort")
                     .short("s")

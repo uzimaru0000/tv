@@ -1,11 +1,17 @@
-use std::{collections::HashMap, fmt::Display};
+use std::fmt::Display;
 
 use crate::utils::Transpose;
 use anyhow::{Context, Result};
+use serde::{Deserialize, Serialize};
 
 use unicode_width::UnicodeWidthStr;
 
-type Json<'a> = HashMap<&'a str, serde_json::Value>;
+#[derive(Debug, Deserialize, Serialize, Clone)]
+#[serde(untagged)]
+enum Json {
+    Object(serde_json::Map<String, serde_json::Value>),
+    Value(serde_json::Value),
+}
 
 #[derive(Debug)]
 pub enum Align {
@@ -31,7 +37,7 @@ impl Align {
 
 #[derive(Debug)]
 pub struct Data<'a> {
-    data: Vec<Json<'a>>,
+    data: Vec<Json>,
     sort_key: Option<&'a str>,
     is_plane: bool,
     align: Align,
@@ -39,17 +45,14 @@ pub struct Data<'a> {
 
 impl<'a> Data<'a> {
     pub fn from(s: &'a str) -> Result<Self> {
-        let data = serde_json::from_str::<Vec<HashMap<&str, serde_json::Value>>>(s);
-
-        match data {
-            Ok(vec) => Ok(Self {
-                data: vec,
+        serde_json::from_str::<Vec<Json>>(s)
+            .map(|x| Self {
+                data: x,
                 sort_key: None,
                 is_plane: false,
                 align: Align::None,
-            }),
-            Err(_) => Self::csv(s),
-        }
+            })
+            .context("unsupported format")
     }
 
     pub fn set_sort_key(&mut self, s: Option<&'a str>) -> &mut Self {
@@ -67,37 +70,12 @@ impl<'a> Data<'a> {
         self
     }
 
-    fn csv(s: &'a str) -> Result<Self> {
-        let mut lines = s.split("\n");
-        let sub = lines
-            .next()
-            .with_context(|| "error")
-            .map(|x| x.split(","))?;
-        let maps = lines
-            .map(|x| sub.clone().zip(x.split(",")))
-            .map(|xs| {
-                xs.fold(HashMap::new() as Json<'a>, |mut hash, (k, v)| {
-                    hash.insert(k, serde_json::Value::String(String::from(v)));
-                    hash
-                })
-            })
-            .collect::<Vec<_>>();
-
-        Ok(Self {
-            data: maps,
-            sort_key: None,
-            is_plane: false,
-            align: Align::None,
-        })
-    }
-
     fn keys(&self) -> Vec<String> {
         self.data
             .get(0)
-            .map(|x| {
-                let mut keys = x.keys().map(|&x| String::from(x)).collect::<Vec<_>>();
-                keys.sort();
-                keys
+            .map(|x| match x {
+                Json::Object(obj) => obj.keys().map(|x| x.clone()).collect(),
+                _ => vec![String::new()],
             })
             .unwrap_or_default()
     }
@@ -107,11 +85,13 @@ impl<'a> Data<'a> {
 
         let data = if let Some(key) = self.sort_key {
             let mut data = self.data.clone();
-            data.sort_by_cached_key(|x| {
-                x.get(key)
+            data.sort_by_cached_key(|x| match x {
+                Json::Object(obj) => obj
+                    .get(key)
                     .as_deref()
                     .unwrap_or(&serde_json::Value::default())
-                    .to_string()
+                    .to_string(),
+                Json::Value(_) => serde_json::Value::default().to_string(),
             });
             data
         } else {
@@ -119,18 +99,24 @@ impl<'a> Data<'a> {
         };
 
         data.iter()
-            .map(|x| {
-                keys.clone()
+            .map(|x| match x {
+                Json::Object(obj) => keys
+                    .clone()
                     .iter()
-                    .map(|k| x.get(k.as_str()))
-                    .collect::<Vec<_>>()
+                    .map(|k| obj.get(k.as_str()).map(|x| x.clone()))
+                    .collect::<Vec<_>>(),
+                Json::Value(serde_json::Value::Array(arr)) => {
+                    arr.clone().iter().map(|x| Some(x.clone())).collect()
+                }
+                Json::Value(val) => vec![Some(val.clone())],
             })
             .map(|x| {
-                x.into_iter()
+                x.iter()
                     .map(|x| match x {
                         Some(serde_json::Value::String(s)) => String::from(s),
                         Some(serde_json::Value::Bool(b)) => b.to_string(),
                         Some(serde_json::Value::Number(n)) => n.to_string(),
+                        Some(serde_json::Value::Null) => String::from("null"),
                         None => String::from("undefined"),
                         _ => String::from("..."),
                     })
@@ -211,5 +197,77 @@ fn cell_view(v: &String, width: usize, align: &Align) -> String {
             let right_pad = pad.floor() as usize;
             format!("{}{}{}", " ".repeat(left_pad), v, " ".repeat(right_pad))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    const ARRAY_OBJECT: &'static str = r#"[
+            {
+                "name": "test",
+                "age": 10,
+                "lang": "ja"
+            },
+            {
+                "name": "uzimaru",
+                "age": 23,
+                "lang": "ja"
+            },
+            {
+                "name": "hogehoge",
+                "age": 21,
+                "lang": "en"
+            },
+            {
+                "name": "hugehuge",
+                "age": 32,
+                "lang": "en"
+            }
+        ]"#;
+
+    const ARRAY_VALUE: &'static str = "[1, 2, 3, 4]";
+
+    #[test]
+    fn test_create_data_from_str_to_array_object() {
+        let data = super::Data::from(ARRAY_OBJECT);
+        assert!(data.is_ok());
+    }
+
+    #[test]
+    fn test_create_data_from_str_to_array_value() {
+        let data = super::Data::from(ARRAY_VALUE);
+        assert!(data.is_ok());
+    }
+
+    #[test]
+    fn test_display_array_object() {
+        let actual = super::Data::from(ARRAY_OBJECT)
+            .map(|x| format!("{}", x))
+            .unwrap();
+
+        let expected = r#"|age|lang|    name|
+|---|----|--------|
+| 10|  ja|    test|
+| 23|  ja| uzimaru|
+| 21|  en|hogehoge|
+| 32|  en|hugehuge|
+"#;
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn test_display_array_value() {
+        let actual = super::Data::from(ARRAY_VALUE)
+            .map(|x| format!("{}", x))
+            .unwrap();
+
+        let expected = r#"| |
+|-|
+|1|
+|2|
+|3|
+|4|
+"#;
+        assert_eq!(actual, expected);
     }
 }

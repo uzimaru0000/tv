@@ -127,4 +127,4 @@ jobs:
           token: ${{ secrets.PERSONAL_TOKEN }}
           repository: uzimaru0000/homebrew-tap
           event-type: update-brew
-          client-payload: '{ "formula": "tv", "description": "Format json into table view", "url": "", "sha256": "${{ steps.checksum.outputs.sha256 }}", "version": "${{ github.ref }}" }'
+          client-payload: '{ "formula": "tv", "description": "Format json into table view", "url": "https://github.com/uzimaru0000/tv/releases/download/v${{ github.ref }}/tv-x86_64-apple-darwin.zip", "sha256": "${{ steps.checksum.outputs.sha256 }}", "version": "${{ github.ref }}" }'

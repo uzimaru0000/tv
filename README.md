@@ -2,7 +2,7 @@
 
 <img width="256" src="./.github/images/tv_logo.png">
 
-Format json and csv into table display
+Format json into table display
 
 ```
 $ cat test.json
@@ -36,22 +36,6 @@ $ tv test.json
 | 23|  ja| uzimaru|
 | 21|  en|hogehoge|
 | 32|  en|hugehuge|
-
-$ cat test.csv
-name,age,lang
-test,10,ja
-uzimaru,23,ja
-hogehoge,21,en
-hugehuge,32,en
-
-$ tv test.csv
-|age|lang|    name|
-|---|----|--------|
-| 10|  ja|    test|
-| 23|  ja| uzimaru|
-| 21|  en|hogehoge|
-| 32|  en|hugehuge|
-
 ```
 
 ## How to install

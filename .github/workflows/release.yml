@@ -51,13 +51,18 @@ jobs:
           command: build
           args: --release --target=${{ matrix.target }}
           use-cross: true
-
       - run: |
           zip --junk-paths tv-${{ matrix.target }} target/${{ matrix.target }}/release/tv{,.exe}
       - uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.target }}
           path: tv-${{ matrix.target }}.zip
+      - run: |
+          shasum -a 256 tv-${{ matrix.target }}.zip | cut -d" " -f1 > ${{ matrix.target }}.sum
+      - uses: actions/upload-artifact@1
+        with:
+          name: checksum-${{ matrix.target }}
+          path: ${{ matrix.target }}.sum
 
   create-release:
     needs: [build]
@@ -106,3 +111,20 @@ jobs:
           asset_path: ./build-${{ matrix.target }}/tv-${{ matrix.target }}.zip
           asset_name: tv-${{ matrix.target }}.zip
           asset_content_type: application/zip
+
+  update-homebrew:
+    needs: [create-release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: checksum-x86_64-apple-darwin
+      - id: checksum
+        run: |
+          echo "::set-output name=sha256::$(cat checksum-x86_64-apple-darwin/x86_64-apple-darwin.sum)"
+      - uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          repository: uzimaru0000/homebrew-tap
+          event-type: update-brew
+          client-payload: '{ "formula": "tv", "description": "Format json into table view", "url": "", "sha256": "${{ steps.checksum.outputs.sha256 }}", "version": "${{ github.ref }}" }'

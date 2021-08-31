@@ -3,6 +3,16 @@ name = "tv"
 version = "0.3.0"
 authors = ["uzimaru0000 <shuji365630@gmail.com>"]
 edition = "2018"
+description = "Format json into table view"
+homepag = "https://github.com/uzimaru0000/tv"
+keywords = [
+    "json",
+    "viewer",
+    "tool",
+]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/uzimaru0000/tv"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

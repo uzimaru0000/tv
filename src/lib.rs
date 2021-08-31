@@ -17,7 +17,7 @@ impl<'a, 'b> Application<'a, 'b> {
         let app = App::new("tv")
             .version(env!("CARGO_PKG_VERSION"))
             .author(env!("CARGO_PKG_AUTHORS"))
-            .about("Format json and csv into table view")
+            .about(env!("CARGO_PKG_DESCRIPTION"))
             .arg(Arg::with_name("PATH").help("json file path").index(1))
             .arg(
                 Arg::with_name("sort")

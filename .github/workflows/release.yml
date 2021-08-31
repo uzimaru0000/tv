@@ -122,9 +122,13 @@ jobs:
       - id: checksum
         run: |
           echo "::set-output name=sha256::$(cat checksum-x86_64-apple-darwin/x86_64-apple-darwin.sum)"
+      - id: version
+        run: |
+          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
+          echo ::set-output name=version::$VERSION
       - uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
           repository: uzimaru0000/homebrew-tap
           event-type: update-brew
-          client-payload: '{ "formula": "tv", "description": "Format json into table view", "url": "https://github.com/uzimaru0000/tv/releases/download/v${{ github.ref }}/tv-x86_64-apple-darwin.zip", "sha256": "${{ steps.checksum.outputs.sha256 }}", "version": "${{ github.ref }}" }'
+          client-payload: '{ "formula": "tv", "description": "Format json into table view", "url": "https://github.com/uzimaru0000/tv/releases/download/${{ steps.version.outputs.version }}/tv-x86_64-apple-darwin.zip", "sha256": "${{ steps.checksum.outputs.sha256 }}", "version": "${{ steps.version.outputs.version }}" }'

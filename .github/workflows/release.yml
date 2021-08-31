@@ -59,7 +59,7 @@ jobs:
           path: tv-${{ matrix.target }}.zip
       - run: |
           shasum -a 256 tv-${{ matrix.target }}.zip | cut -d" " -f1 > ${{ matrix.target }}.sum
-      - uses: actions/upload-artifact@1
+      - uses: actions/upload-artifact@v1
         with:
           name: checksum-${{ matrix.target }}
           path: ${{ matrix.target }}.sum

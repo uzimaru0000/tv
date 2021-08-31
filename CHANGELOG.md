@@ -1,4 +1,19 @@
 
+<a name="v0.3.1"></a>
+## [v0.3.1](https://github.com/uzimaru0000/tv/compare/v0.3.0...v0.3.1)
+
+> 2021-09-01
+
+### Code Refactoring
+
+* Refactoring code
+
+### Pull Requests
+
+* Merge pull request [#24](https://github.com/uzimaru0000/tv/issues/24) from uzimaru0000/refactor/application
+* Merge pull request [#23](https://github.com/uzimaru0000/tv/issues/23) from uzimaru0000/update-ci-homebrew
+
+
 <a name="v0.3.0"></a>
 ## [v0.3.0](https://github.com/uzimaru0000/tv/compare/v0.2.1...v0.3.0)
 

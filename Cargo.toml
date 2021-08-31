@@ -4,7 +4,7 @@ version = "0.3.0"
 authors = ["uzimaru0000 <shuji365630@gmail.com>"]
 edition = "2018"
 description = "Format json into table view"
-homepag = "https://github.com/uzimaru0000/tv"
+homepage = "https://github.com/uzimaru0000/tv"
 keywords = [
     "json",
     "viewer",

@@ -1,8 +1,16 @@
-# tv
+<h1 align="center">:tv: tv</h1>
 
-<img width="256" src="./.github/images/tv_logo.png">
+<p align="center">
+<img width="320" src="./.github/images/tv_logo.png">
+</p>
 
-Format json into table display
+<h2 align="center"><em>Format json into table view</em></h2>
+
+[![](https://img.shields.io/github/license/uzimaru0000/tv?style=for-the-badge)](https://github.com/uzimaru0000/tv/blob/master/LICENSE)
+[![](https://img.shields.io/github/v/release/uzimaru0000/tv?style=for-the-badge)](https://github.com/uzimaru0000/tv/releases/latest)
+![](https://img.shields.io/github/downloads/uzimaru0000/tv/total?style=for-the-badge)
+
+## Usage
 
 ```
 $ cat test.json
@@ -37,6 +45,8 @@ $ tv test.json
 | 21|  en|hogehoge|
 | 32|  en|hugehuge|
 ```
+
+Run `tv --help` to view detailed usage.
 
 ## How to install
 

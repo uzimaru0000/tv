@@ -133,7 +133,11 @@ impl Data {
             .zip(keys)
             .map(|(mut xs, k)| {
                 xs.push(&k);
-                xs.into_iter().map(|x| x.width()).max().unwrap_or_default()
+                xs
+                    .into_iter()
+                    .map(|x| x.split("\n").map(|x| x.width()).max().unwrap_or_default())
+                    .max()
+                    .unwrap_or_default()
             })
             .collect::<Vec<_>>()
     }

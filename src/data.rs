@@ -35,7 +35,7 @@ impl Data {
             .get(0)
             .map(|x| match x {
                 Json::Object(obj) => obj.keys().map(|x| x.clone()).collect(),
-                _ => vec![String::new()],
+                _ => vec![],
             })
             .unwrap_or_default()
     }
@@ -132,8 +132,10 @@ impl Into<Table<String>> for Data {
         let keys = self.keys();
         let values = self.multi_line_value();
 
-        let title = keys.into_iter().map(|x| Cell::new(x)).collect::<Vec<_>>();
-        table.set_header(Some(title));
+        if !keys.is_empty() {
+            let title = keys.into_iter().map(|x| Cell::new(x)).collect::<Vec<_>>();
+            table.set_header(Some(title));
+        }
         values
             .into_iter()
             .map(|xs| xs.into_iter().map(Cell::new).collect::<Vec<_>>())

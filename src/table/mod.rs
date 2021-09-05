@@ -32,6 +32,7 @@ where
     header: Option<Row<T>>,
     style: Style,
     align: Align,
+    no_headers: bool,
     // cache
     row_len: usize,
 }
@@ -46,6 +47,7 @@ where
             header: None,
             style: Style::Markdown,
             align: Align::None,
+            no_headers: false,
             row_len: 0,
         }
     }
@@ -67,6 +69,11 @@ where
 
     pub fn set_style(&mut self, style: Style) -> &mut Self {
         self.style = style;
+        self
+    }
+
+    pub fn set_no_headers(&mut self, no_headers: bool) -> &mut Self {
+        self.no_headers = no_headers;
         self
     }
 
@@ -119,21 +126,23 @@ where
             )?;
         }
 
-        if let Some(header) = &self.header {
-            write!(
-                f,
-                "{}{}{}\n",
-                frame.separator,
-                display_row(header, &width_list, self.align, self.style),
-                frame.separator,
-            )?;
-            let border = width_list
-                .clone()
-                .into_iter()
-                .map(|x| frame.border.repeat(x))
-                .collect::<Vec<_>>()
-                .join(&frame.center);
-            write!(f, "{}{}{}\n", frame.left, border, frame.right)?;
+        if !self.no_headers {
+            if let Some(header) = &self.header {
+                write!(
+                    f,
+                    "{}{}{}\n",
+                    frame.separator,
+                    display_row(header, &width_list, self.align, self.style),
+                    frame.separator,
+                )?;
+                let border = width_list
+                    .clone()
+                    .into_iter()
+                    .map(|x| frame.border.repeat(x))
+                    .collect::<Vec<_>>()
+                    .join(&frame.center);
+                write!(f, "{}{}{}\n", frame.left, border, frame.right)?;
+            }
         }
 
         let table = self

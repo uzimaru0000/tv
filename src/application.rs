@@ -11,6 +11,7 @@ pub struct Application<'a, 'b> {
     sort_key: Option<String>,
     align: Align,
     style: Style,
+    no_headers: bool,
 }
 
 impl<'a, 'b> Application<'a, 'b> {
@@ -30,12 +31,6 @@ impl<'a, 'b> Application<'a, 'b> {
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("plane")
-                    .short("p")
-                    .long("plane")
-                    .help("Do not Display border"),
-            )
-            .arg(
                 Arg::with_name("align")
                     .short("a")
                     .long("align")
@@ -51,6 +46,11 @@ impl<'a, 'b> Application<'a, 'b> {
                     .help("Table style")
                     .takes_value(true)
                     .default_value("ascii"),
+            )
+            .arg(
+                Arg::with_name("no headers")
+                    .long("no-headers")
+                    .help("Specify that the input has no header row"),
             );
 
         let matcher = app.clone().get_matches();
@@ -66,6 +66,7 @@ impl<'a, 'b> Application<'a, 'b> {
             .map(String::from)
             .map(Style::new)
             .unwrap_or(Style::Ascii);
+        let no_headers = matcher.is_present("no headers");
 
         Self {
             app,
@@ -73,6 +74,7 @@ impl<'a, 'b> Application<'a, 'b> {
             sort_key,
             align,
             style,
+            no_headers,
         }
     }
 
@@ -95,7 +97,10 @@ impl<'a, 'b> Application<'a, 'b> {
         data.set_sort_key(self.sort_key.clone());
 
         let mut table: Table<String> = data.into();
-        table.set_style(self.style).set_align(self.align);
+        table
+            .set_style(self.style)
+            .set_align(self.align)
+            .set_no_headers(self.no_headers);
 
         println!("{}", table);
 

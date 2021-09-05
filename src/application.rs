@@ -2,14 +2,15 @@ use crate::input;
 use anyhow::Result;
 use clap::{App, Arg};
 use tokio::io::BufReader;
-use tv::data::{Align, Data};
+use tv::data::Data;
+use tv::table::{cell::Align, style::Style, Table};
 
 pub struct Application<'a, 'b> {
     app: App<'a, 'b>,
     path: Option<String>,
     sort_key: Option<String>,
-    is_plane: bool,
     align: Align,
+    style: Style,
 }
 
 impl<'a, 'b> Application<'a, 'b> {
@@ -42,24 +43,36 @@ impl<'a, 'b> Application<'a, 'b> {
                     .help("Table alignment")
                     .takes_value(true)
                     .default_value("none"),
+            )
+            .arg(
+                Arg::with_name("style")
+                    .long("style")
+                    .value_name("ascii | sharp | rounded | markdown | plane")
+                    .help("Table style")
+                    .takes_value(true)
+                    .default_value("ascii"),
             );
 
         let matcher = app.clone().get_matches();
         let path = matcher.value_of("PATH").map(String::from);
         let sort_key = matcher.value_of("sort").map(String::from);
-        let is_plane = matcher.is_present("plane");
         let align = matcher
             .value_of("align")
             .map(String::from)
             .map(Align::new)
             .unwrap_or(Align::None);
+        let style = matcher
+            .value_of("style")
+            .map(String::from)
+            .map(Style::new)
+            .unwrap_or(Style::Ascii);
 
         Self {
             app,
             path,
             sort_key,
-            is_plane,
             align,
+            style,
         }
     }
 
@@ -79,11 +92,12 @@ impl<'a, 'b> Application<'a, 'b> {
         }?;
 
         let mut data = Data::from(&raw)?;
-        data.set_sort_key(self.sort_key.clone())
-            .set_is_plane(self.is_plane)
-            .set_align(self.align);
+        data.set_sort_key(self.sort_key.clone());
 
-        println!("{}", data);
+        let mut table: Table<String> = data.into();
+        table.set_style(self.style).set_align(self.align);
+
+        println!("{}", table);
 
         Ok(())
     }

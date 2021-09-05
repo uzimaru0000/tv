@@ -1,4 +1,18 @@
 
+<a name="v0.4.0"></a>
+## [v0.4.0](https://github.com/uzimaru0000/tv/compare/v0.3.1...v0.4.0)
+
+> 2021-09-05
+
+### Features
+
+* Frame style & Multiline
+
+### Pull Requests
+
+* Merge pull request [#27](https://github.com/uzimaru0000/tv/issues/27) from uzimaru0000/feature/multi-line-cell
+
+
 <a name="v0.3.1"></a>
 ## [v0.3.1](https://github.com/uzimaru0000/tv/compare/v0.3.0...v0.3.1)
 

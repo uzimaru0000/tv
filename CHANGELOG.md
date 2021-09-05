@@ -1,4 +1,25 @@
 
+<a name="v0.5.0"></a>
+## [v0.5.0](https://github.com/uzimaru0000/tv/compare/v0.4.0...v0.5.0)
+
+> 2021-09-06
+
+### Bug Fixes
+
+* fixed field order
+
+### Features
+
+* add recursive view
+* add no-headers mode
+
+### Pull Requests
+
+* Merge pull request [#32](https://github.com/uzimaru0000/tv/issues/32) from uzimaru0000/feature/recursive
+* Merge pull request [#31](https://github.com/uzimaru0000/tv/issues/31) from uzimaru0000/fix/field-order
+* Merge pull request [#30](https://github.com/uzimaru0000/tv/issues/30) from uzimaru0000/feature/no-header
+
+
 <a name="v0.4.0"></a>
 ## [v0.4.0](https://github.com/uzimaru0000/tv/compare/v0.3.1...v0.4.0)
 

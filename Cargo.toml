@@ -20,7 +20,7 @@ repository = "https://github.com/uzimaru0000/tv"
 anyhow = "1.0.43"
 csv = "1.1.6"
 serde = { version = "1.0.129", features = ["derive"] }
-serde_json = "1.0.66"
+serde_json = { version = "1.0.66", features = ["preserve_order"] }
 tokio = { version = "1.10.1", features = ["full"] }
 unicode-width = "0.1.7"
 clap = "2.33.3"

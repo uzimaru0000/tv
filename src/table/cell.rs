@@ -111,7 +111,7 @@ mod tests {
     fn display_cell_with_width() {
         let mut cell = Cell::new(String::from("Hello"));
         cell.set_width(10);
-        assert_eq!("     Hello", format!("{}", cell))
+        assert_eq!("Hello     ", format!("{}", cell))
     }
 
     #[test]
@@ -128,7 +128,7 @@ mod tests {
                 value: "Hello",
                 width: 10,
                 align: Align::None,
-                expect: "     Hello",
+                expect: "Hello     ",
             },
             TestCase {
                 value: "Hello",

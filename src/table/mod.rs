@@ -230,7 +230,7 @@ mod tests {
         table.push_row(vec![Cell::new("00000"), Cell::new("0001"), Cell::new("02")]);
         table.push_row(vec![Cell::new("10"), Cell::new("11"), Cell::new("12")]);
 
-        let expected = "|00000|0001|02|\n|   10|  11|12|";
+        let expected = "|00000|0001|02|\n|10   |11  |12|";
         let actual = format!("{}", table);
         assert_eq!(expected, actual);
     }
@@ -247,7 +247,7 @@ mod tests {
         ]));
 
         let expected =
-            "|hogehogehoge|abcdefg| x|\n|------------|-------|--|\n|       00000|   0001|02|\n|          10|     11|12|";
+            "|hogehogehoge|abcdefg|x |\n|------------|-------|--|\n|00000       |0001   |02|\n|10          |11     |12|";
         let actual = format!("{}", table);
         assert_eq!(expected, actual);
     }

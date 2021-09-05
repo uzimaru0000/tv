@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::table::{cell::Cell, Table};
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
@@ -9,19 +11,23 @@ enum Json {
     Value(serde_json::Value),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Data {
     data: Vec<Json>,
     sort_key: Option<String>,
 }
 
 impl Data {
+    fn new(data: Vec<Json>) -> Self {
+        Self {
+            data,
+            sort_key: None,
+        }
+    }
+
     pub fn from(s: &str) -> Result<Self> {
         serde_json::from_str::<Vec<Json>>(s)
-            .map(|x| Self {
-                data: x,
-                sort_key: None,
-            })
+            .map(Self::new)
             .context("unsupported format")
     }
 
@@ -83,6 +89,55 @@ impl Data {
                     .collect::<Vec<_>>()
             })
             .collect::<Vec<_>>()
+    }
+
+    pub fn nested_fields(&self) -> Vec<(String, Self)> {
+        let nested_fields = {
+            let filtered_data = self.data.iter().filter_map(|x| match x {
+                Json::Object(obj) => Some(obj),
+                _ => None,
+            });
+            let nested_fields = filtered_data.map(|x| {
+                x.keys()
+                    .zip(x.values())
+                    .filter(|(_, x)| match x {
+                        serde_json::Value::Object(_) | serde_json::Value::Array(_) => true,
+                        _ => false,
+                    })
+                    .collect::<Vec<_>>()
+            });
+            let mut map: HashMap<String, Vec<serde_json::Value>> = HashMap::new();
+            nested_fields.for_each(|xs| {
+                xs.into_iter().for_each(|(k, v)| {
+                    let mut vec = if let Some(vec) = map.get(k) {
+                        vec.clone()
+                    } else {
+                        Vec::new()
+                    };
+
+                    vec.push(v.clone());
+                    map.insert(k.clone(), vec);
+                });
+            });
+            map
+        };
+
+        nested_fields
+            .iter()
+            .map(|(k, v)| {
+                (
+                    k.clone(),
+                    Self::new(
+                        v.iter()
+                            .map(|x| match x {
+                                serde_json::Value::Object(o) => Json::Object(o.clone()),
+                                _ => Json::Value(x.clone()),
+                            })
+                            .collect(),
+                    ),
+                )
+            })
+            .collect()
     }
 
     fn multi_line_value(&self) -> Vec<Vec<String>> {

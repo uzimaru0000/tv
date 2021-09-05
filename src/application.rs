@@ -12,6 +12,7 @@ pub struct Application<'a, 'b> {
     align: Align,
     style: Style,
     no_headers: bool,
+    recursive: bool,
 }
 
 impl<'a, 'b> Application<'a, 'b> {
@@ -51,6 +52,12 @@ impl<'a, 'b> Application<'a, 'b> {
                 Arg::with_name("no headers")
                     .long("no-headers")
                     .help("Specify that the input has no header row"),
+            )
+            .arg(
+                Arg::with_name("recursive")
+                    .short("r")
+                    .long("recursive")
+                    .help("Recursive display"),
             );
 
         let matcher = app.clone().get_matches();
@@ -67,6 +74,7 @@ impl<'a, 'b> Application<'a, 'b> {
             .map(Style::new)
             .unwrap_or(Style::Ascii);
         let no_headers = matcher.is_present("no headers");
+        let recursive = matcher.is_present("recursive");
 
         Self {
             app,
@@ -75,6 +83,7 @@ impl<'a, 'b> Application<'a, 'b> {
             align,
             style,
             no_headers,
+            recursive,
         }
     }
 
@@ -96,7 +105,13 @@ impl<'a, 'b> Application<'a, 'b> {
         let mut data = Data::from(&raw)?;
         data.set_sort_key(self.sort_key.clone());
 
-        let mut table: Table<String> = data.into();
+        self.show(data);
+
+        Ok(())
+    }
+
+    fn show(&self, data: Data) {
+        let mut table: Table<String> = data.clone().into();
         table
             .set_style(self.style)
             .set_align(self.align)
@@ -104,6 +119,14 @@ impl<'a, 'b> Application<'a, 'b> {
 
         println!("{}", table);
 
-        Ok(())
+        if self.recursive {
+            let nested_fields = data.clone().nested_fields();
+            nested_fields.into_iter().for_each(|(k, v)| {
+                println!("\n# {}", k);
+                let mut data = v;
+                data.set_sort_key(self.sort_key.clone());
+                self.show(data);
+            });
+        }
     }
 }

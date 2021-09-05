@@ -1,7 +1,7 @@
 <h1 align="center">:tv: tv</h1>
 
 <p align="center">
-<img width="320" src="./.github/images/tv_logo.png">
+<img src="./.github/images/logo.png">
 </p>
 
 <h2 align="center"><em>Format json into table view</em></h2>

@@ -1,157 +1,141 @@
+# Changelog
+All notable changes to this project will be documented in this file.
 
-<a name="v0.5.1"></a>
-## [v0.5.1](https://github.com/uzimaru0000/tv/compare/v0.5.0...v0.5.1)
+## [v0.5.1](/uzimaru0000/tv/releases/tag/v0.5.1) - 2021-09-07
 
-> 2021-09-07
+### Documentation
 
-### Code Refactoring
+- :books: change logo in README
+ ([6a19374](/uzimaru0000/tv/commit/6a19374f179675aace3961dbec6f51855498e2bc))
 
-* update package name
+### Miscellaneous Tasks
 
+- :adhesive_bandage: fix logo color
+ ([730f883](/uzimaru0000/tv/commit/730f883956d7d95ea710c8679e8680d8dc07b404))
+- :adhesive_bandage: change something
+ ([48ba03f](/uzimaru0000/tv/commit/48ba03f5e0c98466a454fc653f2dcd1e172ddb7d))
 
-<a name="v0.5.0"></a>
-## [v0.5.0](https://github.com/uzimaru0000/tv/compare/v0.4.0...v0.5.0)
+### Refactor
 
-> 2021-09-06
+- :recycle: update package name
+ ([8486d8c](/uzimaru0000/tv/commit/8486d8cac7f84605457424b740ad00d333509856))
 
-### Bug Fixes
-
-* fixed field order
-
-### Features
-
-* add recursive view
-* add no-headers mode
-
-### Pull Requests
-
-* Merge pull request [#32](https://github.com/uzimaru0000/tv/issues/32) from uzimaru0000/feature/recursive
-* Merge pull request [#31](https://github.com/uzimaru0000/tv/issues/31) from uzimaru0000/fix/field-order
-* Merge pull request [#30](https://github.com/uzimaru0000/tv/issues/30) from uzimaru0000/feature/no-header
-
-
-<a name="v0.4.0"></a>
-## [v0.4.0](https://github.com/uzimaru0000/tv/compare/v0.3.1...v0.4.0)
-
-> 2021-09-05
-
-### Features
-
-* Frame style & Multiline
-
-### Pull Requests
-
-* Merge pull request [#27](https://github.com/uzimaru0000/tv/issues/27) from uzimaru0000/feature/multi-line-cell
-
-
-<a name="v0.3.1"></a>
-## [v0.3.1](https://github.com/uzimaru0000/tv/compare/v0.3.0...v0.3.1)
-
-> 2021-09-01
-
-### Code Refactoring
-
-* Refactoring code
-
-### Pull Requests
-
-* Merge pull request [#24](https://github.com/uzimaru0000/tv/issues/24) from uzimaru0000/refactor/application
-* Merge pull request [#23](https://github.com/uzimaru0000/tv/issues/23) from uzimaru0000/update-ci-homebrew
-
-
-<a name="v0.3.0"></a>
-## [v0.3.0](https://github.com/uzimaru0000/tv/compare/v0.2.1...v0.3.0)
-
-> 2021-09-01
-
-### Features
-
-* can view array
-
-### Pull Requests
-
-* Merge pull request [#19](https://github.com/uzimaru0000/tv/issues/19) from uzimaru0000/feature/array-view
-
-
-<a name="v0.2.1"></a>
-## [v0.2.1](https://github.com/uzimaru0000/tv/compare/v0.2.0...v0.2.1)
-
-> 2021-08-30
+## [v0.5.0](/uzimaru0000/tv/releases/tag/v0.5.0) - 2021-09-05
 
 ### Bug Fixes
 
-* fix title align
+- :bug: fixed field order
+ ([8e9224d](/uzimaru0000/tv/commit/8e9224d25273209bfd03a6a432ea3e18587de8ec))
 
-### Pull Requests
+### Documentation
 
-* Merge pull request [#18](https://github.com/uzimaru0000/tv/issues/18) from uzimaru0000/fix/title-align
-* Merge pull request [#15](https://github.com/uzimaru0000/tv/issues/15) from uzimaru0000/add-license
-
-
-<a name="v0.2.0"></a>
-## [v0.2.0](https://github.com/uzimaru0000/tv/compare/v0.1.3...v0.2.0)
-
-> 2021-08-29
+- :books: change test.json → example.json
+ ([8cb3ce5](/uzimaru0000/tv/commit/8cb3ce5bd5d1f02ce2e6959ad488f6e377658dec))
 
 ### Features
 
-* align option
-* plane option
+- :sparkles: add no-headers mode
+ ([8a92630](/uzimaru0000/tv/commit/8a92630745e88851ec34c017aca90f08469a7f25))
+- :sparkles: add recursive view
+ ([36bbd46](/uzimaru0000/tv/commit/36bbd462bf3f3a170738a9fd73156fe21805bd78))
 
-### Pull Requests
+## [v0.4.0](/uzimaru0000/tv/releases/tag/v0.4.0) - 2021-09-05
 
-* Merge pull request [#13](https://github.com/uzimaru0000/tv/issues/13) from uzimaru0000/feature/align
-* Merge pull request [#12](https://github.com/uzimaru0000/tv/issues/12) from uzimaru0000/feature/simple-display
+### Documentation
 
-
-<a name="v0.1.3"></a>
-## [v0.1.3](https://github.com/uzimaru0000/tv/compare/v0.1.2...v0.1.3)
-
-> 2021-08-29
-
-### Features
-
-* sort option
-
-### Pull Requests
-
-* Merge pull request [#11](https://github.com/uzimaru0000/tv/issues/11) from uzimaru0000/feature/sort-option
-
-
-<a name="v0.1.2"></a>
-## [v0.1.2](https://github.com/uzimaru0000/tv/compare/v0.1.1...v0.1.2)
-
-> 2021-08-28
+- :books: add commit_template
+ ([663e4db](/uzimaru0000/tv/commit/663e4db4d98d1068c5c9249a8e36ea06ff529df0))
+- :books: update README
+ ([17ec417](/uzimaru0000/tv/commit/17ec41701c3d9f2d3b95fc47fbd0b74122fd6345))
 
 ### Features
 
-* impl help message
+- :sparkles: Frame style & Multiline
+ ([1d39298](/uzimaru0000/tv/commit/1d39298a4fee627f34cb86e36da6d52cf1dc4c3e))
 
-### Pull Requests
+### Testing
 
-* Merge pull request [#6](https://github.com/uzimaru0000/tv/issues/6) from uzimaru0000/add-help-message
+- :rotating_light: fix test case
+ ([2c6f20c](/uzimaru0000/tv/commit/2c6f20c3682ad49243d5d9ad88d70075da66483d))
 
+## [v0.3.1](/uzimaru0000/tv/releases/tag/v0.3.1) - 2021-08-31
 
-<a name="v0.1.1"></a>
-## [v0.1.1](https://github.com/uzimaru0000/tv/compare/v0.1.0...v0.1.1)
+### Documentation
 
-> 2021-08-27
+- :books: update Cargo.toml
+ ([468979c](/uzimaru0000/tv/commit/468979c8321e96662ee28be76cff0c01db6bfa32))
 
-### Pull Requests
+### Refactor
 
-* Merge pull request [#3](https://github.com/uzimaru0000/tv/issues/3) from takuma-watanabe/fix/cell-size-is-wrong
+- :recycle: Refactoring code
+ ([1ac2533](/uzimaru0000/tv/commit/1ac25336c18bf4e16da46f954cc877cd3f792135))
 
+## [v0.3.0](/uzimaru0000/tv/releases/tag/v0.3.0) - 2021-08-31
 
-<a name="v0.1.0"></a>
-## v0.1.0
+### Documentation
 
-> 2021-08-26
+- :books: update README.md
+ ([4eab200](/uzimaru0000/tv/commit/4eab2007b684592068ddaeb3346850b609aed0fa))
+
+### Features
+
+- :sparkles: can view array
+ ([4a553e6](/uzimaru0000/tv/commit/4a553e6ebe8b6bc1778aa43b3c1c74554db5cb57))
+
+## [v0.2.1](/uzimaru0000/tv/releases/tag/v0.2.1) - 2021-08-29
 
 ### Bug Fixes
 
-* fix ci error
+- :bug: fix title align
+ ([a1e9256](/uzimaru0000/tv/commit/a1e925611b95a7e25c007e2d4e0c66a6a599a263))
 
-### Pull Requests
+### Documentation
 
-* Merge pull request [#1](https://github.com/uzimaru0000/tv/issues/1) from uzimaru0000/add-ci
+- :books: update CHANGELOG.md
+ ([d3f285e](/uzimaru0000/tv/commit/d3f285ef17dd37145b7fb24cf82bdd8398f114ab))
+- :books: add LICENSE
+ ([0c127da](/uzimaru0000/tv/commit/0c127da130557b28273212cfd9b57aa2be00c032))
 
+## [v0.2.0](/uzimaru0000/tv/releases/tag/v0.2.0) - 2021-08-28
+
+### Documentation
+
+- :books: update CHANGELOG.md
+ ([b7dc35e](/uzimaru0000/tv/commit/b7dc35e5057177ad23194af20e6b83ec98c62a52))
+
+### Features
+
+- :sparkles: sort option
+ ([b4db8c7](/uzimaru0000/tv/commit/b4db8c775a8b55877f08815af09dabce77cd6997))
+- :sparkles: plane option
+ ([5374510](/uzimaru0000/tv/commit/5374510922fa7e7b84943cbc1f84a1ee653ade5d))
+- :sparkles: align option
+ ([35407c7](/uzimaru0000/tv/commit/35407c76eeb788dcd78cfe68f32e18096ced5037))
+
+## [v0.1.2](/uzimaru0000/tv/releases/tag/v0.1.2) - 2021-08-27
+
+### Documentation
+
+- :books: change install
+ ([4c332df](/uzimaru0000/tv/commit/4c332df99e163d73709334f3704bd83efa7b53e6))
+
+### Features
+
+- :sparkles: impl help message
+ ([a02ae0d](/uzimaru0000/tv/commit/a02ae0dd5d483f94619d5aae42763eede012c25b))
+
+## [v0.1.1](/uzimaru0000/tv/releases/tag/v0.1.1) - 2021-08-26
+
+## [v0.1.0](/uzimaru0000/tv/releases/tag/v0.1.0) - 2021-08-26
+
+### Bug Fixes
+
+- :bug: fix ci error
+ ([29abf6a](/uzimaru0000/tv/commit/29abf6ad89ec04b6867e0f48c69e6131474a197d))
+
+### Documentation
+
+- :books: add README
+ ([a127b08](/uzimaru0000/tv/commit/a127b0881d26ec626fffee86fc3d29a59bfc247d))
+
+<!-- generated by git-cliff -->

@@ -2,8 +2,8 @@ use crate::input;
 use anyhow::Result;
 use clap::{App, Arg};
 use tokio::io::BufReader;
-use tv::data::Data;
-use tv::table::{cell::Align, style::Style, Table};
+use tableview::data::Data;
+use tableview::table::{cell::Align, style::Style, Table};
 
 pub struct Application<'a, 'b> {
     app: App<'a, 'b>,

@@ -49,7 +49,7 @@ jobs:
       - uses: actions-rs/cargo@v1.0.1
         with:
           command: build
-          args: --release --target=${{ matrix.target }}
+          args: --release --target=${{ matrix.target }} --bin tv
           use-cross: true
       - run: |
           zip --junk-paths tv-${{ matrix.target }} target/${{ matrix.target }}/release/tv{,.exe}

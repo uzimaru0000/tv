@@ -14,3 +14,6 @@ git-chglog --output CHANGELOG.md --next-tag v$NEXT_VER
 git add Cargo.toml Cargo.lock CHANGELOG.md
 git commit -m ":bookmark: release v$NEXT_VER"
 git tag -a v$NEXT_VER -m "release v$NEXT_VER"
+
+cargo package
+cargo publish

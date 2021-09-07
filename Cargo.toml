@@ -15,10 +15,10 @@ license = "MIT"
 repository = "https://github.com/uzimaru0000/tv"
 exclude = [
     ".github/*",
-    ".chglog/*",
     "scripts/*",
     "array.json",
-    "example.json"
+    "example.json",
+    "cliff.toml"
 ]
 
 [[bin]]

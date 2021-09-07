@@ -365,20 +365,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tableview"
-version = "0.5.0"
-dependencies = [
- "anyhow",
- "atty",
- "clap",
- "csv",
- "serde",
- "serde_json",
- "tokio",
- "unicode-width",
-]
-
-[[package]]
 name = "textwrap"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -416,6 +402,20 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "tv-cli"
+version = "0.5.0"
+dependencies = [
+ "anyhow",
+ "atty",
+ "clap",
+ "csv",
+ "serde",
+ "serde_json",
+ "tokio",
+ "unicode-width",
 ]
 
 [[package]]

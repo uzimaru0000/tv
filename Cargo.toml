@@ -1,5 +1,5 @@
 [package]
-name = "tableview"
+name = "tv-cli"
 version = "0.5.0"
 authors = ["uzimaru0000 <shuji365630@gmail.com>"]
 edition = "2018"

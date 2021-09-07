@@ -1,4 +1,14 @@
 
+<a name="v0.5.1"></a>
+## [v0.5.1](https://github.com/uzimaru0000/tv/compare/v0.5.0...v0.5.1)
+
+> 2021-09-07
+
+### Code Refactoring
+
+* update package name
+
+
 <a name="v0.5.0"></a>
 ## [v0.5.0](https://github.com/uzimaru0000/tv/compare/v0.4.0...v0.5.0)
 

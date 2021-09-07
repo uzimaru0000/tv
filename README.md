@@ -68,3 +68,9 @@ Run `tv --help` to view detailed usage.
 ```bash
 $ brew install uzimaru0000/tap/tv
 ```
+
+### Use cargo
+
+```bash
+$ cargo install tv-cli
+```

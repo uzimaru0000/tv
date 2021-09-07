@@ -52,7 +52,11 @@ jobs:
           args: --release --target=${{ matrix.target }}
           use-cross: true
       - run: |
-          zip --junk-paths tv-${{ matrix.target }} target/${{ matrix.target }}/release/tv{,.exe}
+          mkdir tv-${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/tv{,.exe} tv-${{ matrix.target }}
+          cp README.md tv-${{ matrix.target }}
+          cp LICENSE tv-${{ matrix.target }}
+          zip --junk-paths tv-${{ matrix.target }} tv-${{ matrix.target }}
       - uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.target }}
@@ -68,6 +72,38 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+
+      # https://github.com/actions/cache/blob/master/examples.md#rust---cargo
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo build
+        uses: actions/cache@v1
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - uses: actions-rs/cargo@v1.0.1
+        with:
+          command: install
+          args: git-cliff
+
+      - id: change-log
+        run: |
+          echo "::set-output name=changelog::$(git-cliff --latest)"
+
       - id: create-release
         uses: actions/create-release@v1.0.0
         env:
@@ -75,6 +111,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body: ${{ steps.change-log.outputs.changelog }}
           draft: false
           prerelease: false
       - run: |

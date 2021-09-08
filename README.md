@@ -43,7 +43,7 @@ tv [FLAGS] [OPTIONS] [PATH]
 ```
 -a, --align <left | center | right | none>                  Table alignment [default: none]
 -s, --sort <SORT_KEY>                                       Options for sorting by key
-    --style <ascii | sharp | rounded | markdown | plane>    Table style [default: ascii]
+    --style <ascii | sharp | rounded | markdown | plain>    Table style [default: ascii]
 ```
 
 ### ARGS

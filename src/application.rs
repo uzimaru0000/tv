@@ -43,7 +43,7 @@ impl<'a, 'b> Application<'a, 'b> {
             .arg(
                 Arg::with_name("style")
                     .long("style")
-                    .value_name("ascii | sharp | rounded | markdown | plane")
+                    .value_name("ascii | sharp | rounded | markdown | plane | plain")
                     .help("Table style")
                     .takes_value(true)
                     .default_value("ascii"),

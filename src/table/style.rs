@@ -1,6 +1,6 @@
 #[derive(Debug, Clone, Copy)]
 pub enum Style {
-    Plane,
+    Plain,
     Ascii,
     Sharp,
     Rounded,
@@ -10,7 +10,8 @@ pub enum Style {
 impl Style {
     pub fn new(s: String) -> Self {
         match s.to_lowercase().as_str() {
-            "plane" => Self::Plane,
+            "plane" => Self::Plain, // deprecated
+            "plain" => Self::Plain,
             "ascii" => Self::Ascii,
             "sharp" => Self::Sharp,
             "rounded" => Self::Rounded,
@@ -38,7 +39,7 @@ pub struct Frame {
 impl From<Style> for Frame {
     fn from(style: Style) -> Self {
         match style {
-            Style::Plane => Self {
+            Style::Plain => Self {
                 has_cover: false,
                 border: "".into(),
                 separator: "\t".into(),

@@ -1,6 +1,6 @@
 [package]
 name = "tv-cli"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["uzimaru0000 <shuji365630@gmail.com>"]
 edition = "2018"
 description = "Format json into table view"

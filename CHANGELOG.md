@@ -1,7 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [v0.5.2](https://github.com/uzimaru0000/tv/releases/tag/v0.5.2) - 2021-09-09
+## [v0.5.3](https://github.com/uzimaru0000/tv/releases/tag/v0.5.3) - 2021-09-12
+
+### Features
+
+- :sparkles: Add completions files
+ ([e9932a8](https://github.com/uzimaru0000/tv/commit/e9932a8460fc5b4ed3815df31e74012b04213e8a))
+
+## [v0.5.2](https://github.com/uzimaru0000/tv/releases/tag/v0.5.2) - 2021-09-12
 
 ### Documentation
 

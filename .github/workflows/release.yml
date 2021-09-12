@@ -56,7 +56,7 @@ jobs:
           cp target/${{ matrix.target }}/release/tv* tv-${{ matrix.target }}
           cp README.md tv-${{ matrix.target }}
           cp LICENSE tv-${{ matrix.target }}
-          zip --junk-paths tv-${{ matrix.target }} tv-${{ matrix.target }}
+          zip --junk-paths -r tv-${{ matrix.target }} tv-${{ matrix.target }}
       - uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.target }}

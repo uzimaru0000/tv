@@ -53,7 +53,7 @@ jobs:
           use-cross: true
       - run: |
           mkdir tv-${{ matrix.target }}
-          cp target/${{ matrix.target }}/release/tv{,.exe} tv-${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/tv* tv-${{ matrix.target }}
           cp README.md tv-${{ matrix.target }}
           cp LICENSE tv-${{ matrix.target }}
           zip --junk-paths tv-${{ matrix.target }} tv-${{ matrix.target }}

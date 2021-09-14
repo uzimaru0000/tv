@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+
 jobs:
   build:
     strategy:
@@ -111,7 +113,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          bodyFile: ./latest-release.md
+          body_path: ./latest-release.md
           draft: false
           prerelease: false
       - run: |

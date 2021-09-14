@@ -57,7 +57,7 @@ jobs:
           cp README.md tv-${{ matrix.target }}
           cp LICENSE tv-${{ matrix.target }}
           cp -r completions tv-${{ matrix.target }}
-          zip --junk-paths -r tv-${{ matrix.target }} tv-${{ matrix.target }}
+          zip -r tv-${{ matrix.target }} tv-${{ matrix.target }}
       - uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.target }}
@@ -101,9 +101,8 @@ jobs:
           command: install
           args: git-cliff
 
-      - id: change-log
-        run: |
-          echo "::set-output name=changelog::$(git-cliff --latest)"
+      - name: Create CHANGELOG for release
+        run: git-cliff --latest --output latest-release.md
 
       - id: create-release
         uses: actions/create-release@v1.0.0
@@ -112,7 +111,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{ steps.change-log.outputs.changelog }}
+          bodyFile: ./latest-release.md
           draft: false
           prerelease: false
       - run: |

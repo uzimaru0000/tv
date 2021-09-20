@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 
-use crate::table::{cell::Cell, Table};
+use crate::{
+    table::{cell::Cell, Table},
+    utils::multi_lines,
+};
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 
@@ -46,10 +49,8 @@ impl Data {
             .unwrap_or_default()
     }
 
-    fn values(&self) -> Vec<Vec<String>> {
-        let keys = self.keys();
-
-        let data = if let Some(key) = self.sort_key.clone() {
+    fn sorted_data(&self) -> Vec<Json> {
+        if let Some(key) = self.sort_key.clone() {
             let mut data = self.data.clone();
             data.sort_by_cached_key(|x| match x {
                 Json::Object(obj) => obj
@@ -62,12 +63,15 @@ impl Data {
             data
         } else {
             self.data.clone()
-        };
+        }
+    }
 
-        data.iter()
+    fn value_strings(&self) -> Vec<Vec<String>> {
+        self.sorted_data()
+            .iter()
             .map(|x| match x {
-                Json::Object(obj) => keys
-                    .clone()
+                Json::Object(obj) => self
+                    .keys()
                     .iter()
                     .map(|k| obj.get(k.as_str()).map(|x| x.clone()))
                     .collect::<Vec<_>>(),
@@ -93,7 +97,8 @@ impl Data {
 
     pub fn nested_fields(&self) -> Vec<(String, Self)> {
         let nested_fields = {
-            let filtered_data = self.data.iter().filter_map(|x| match x {
+            let data = self.sorted_data();
+            let filtered_data = data.iter().filter_map(|x| match x {
                 Json::Object(obj) => Some(obj),
                 _ => None,
             });
@@ -139,53 +144,13 @@ impl Data {
             })
             .collect()
     }
-
-    fn multi_line_value(&self) -> Vec<Vec<String>> {
-        let values = self.values();
-        let split_values = values.iter().map(|x| x.iter().map(|x| x.split("\n")));
-        let mapper: Vec<Vec<(usize, usize, usize)>> = split_values
-            .clone()
-            .map(|xs| {
-                (
-                    xs.len(),
-                    xs.map(|x| x.clone().collect::<Vec<_>>().len())
-                        .max()
-                        .unwrap_or_default(),
-                )
-            })
-            .enumerate()
-            .flat_map(|(idx, (h, v))| {
-                (0..v).map(move |y| (0..h).map(move |x| (idx, x, y)).collect::<Vec<_>>())
-            })
-            .collect();
-        let fields = mapper
-            .iter()
-            .map(|xs| {
-                xs.iter()
-                    .map(|&(idx, ix, iy)| {
-                        split_values
-                            .clone()
-                            .nth(idx)
-                            .and_then(|x| x.clone().nth(ix))
-                            .and_then(|x| x.clone().nth(iy))
-                            .unwrap_or_default()
-                    })
-                    .collect::<Vec<_>>()
-            })
-            .collect::<Vec<_>>();
-
-        fields
-            .into_iter()
-            .map(|xs| xs.into_iter().map(String::from).collect::<Vec<_>>())
-            .collect()
-    }
 }
 
 impl Into<Table<String>> for Data {
     fn into(self) -> Table<String> {
         let mut table = Table::new();
         let keys = self.keys();
-        let values = self.multi_line_value();
+        let values = multi_lines(self.value_strings());
 
         if !keys.is_empty() {
             let title = keys.into_iter().map(|x| Cell::new(x)).collect::<Vec<_>>();

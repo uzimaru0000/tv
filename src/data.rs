@@ -50,15 +50,31 @@ impl Data {
     }
 
     fn sorted_data(&self) -> Vec<Json> {
-        if let Some(key) = self.sort_key.clone() {
+        let sort_keys = self
+            .sort_key
+            .clone()
+            .map(|x| x.split(".").map(String::from).collect::<Vec<_>>());
+
+        if let Some(keys) = sort_keys {
             let mut data = self.data.clone();
-            data.sort_by_cached_key(|x| match x {
-                Json::Object(obj) => obj
-                    .get(&key)
-                    .as_deref()
-                    .unwrap_or(&serde_json::Value::default())
-                    .to_string(),
-                Json::Value(_) => serde_json::Value::default().to_string(),
+            data.sort_by_cached_key(|x| {
+                let val = keys.iter().fold(x.clone(), |val, key| match val {
+                    Json::Object(obj) => obj
+                        .get(key)
+                        .map(|v| match v {
+                            serde_json::Value::Object(o) => Json::Object(o.clone()),
+                            _ => Json::Value(v.clone()),
+                        })
+                        .unwrap_or(Json::Value(serde_json::Value::default())),
+                    _ => val,
+                });
+
+                match val {
+                    Json::Object(_) => String::new(),
+                    // NOTE: Numbers are sorted by strings, so fill them with 0s.
+                    Json::Value(serde_json::Value::Number(n)) => format!("{: >099}", n),
+                    Json::Value(v) => v.to_string(),
+                }
             });
             data
         } else {

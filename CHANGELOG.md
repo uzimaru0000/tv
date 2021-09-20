@@ -1,7 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [v0.5.3](https://github.com/uzimaru0000/tv/releases/tag/v0.5.3) - 2021-09-12
+## [v0.6.0](https://github.com/uzimaru0000/tv/releases/tag/v0.6.0) - 2021-09-20
+
+### Bug Fixes
+
+- :bug: fixed sorted when -r option
+ ([06eb9d3](https://github.com/uzimaru0000/tv/commit/06eb9d3d3fd7cc608c6fc65be042f7f038d70a9f))
+
+### Features
+
+- :sparkles: Can use nested sort key
+ ([2bba300](https://github.com/uzimaru0000/tv/commit/2bba300828ace070aab4cab590aba01cd70d920e))
+
+### Miscellaneous Tasks
+
+- :adhesive_bandage: fix actions
+ ([784f569](https://github.com/uzimaru0000/tv/commit/784f569366a9f9d654f000cd55a3e9129f8127f1))
+
+## [v0.5.3](https://github.com/uzimaru0000/tv/releases/tag/v0.5.3) - 2021-09-14
 
 ### Features
 

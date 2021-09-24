@@ -1,5 +1,3 @@
-use std::cmp::max;
-
 use self::cell::{Align, Cell};
 use self::style::{Frame, Style};
 
@@ -54,7 +52,7 @@ where
 
     pub fn push_row(&mut self, row: Row<T>) {
         self.cols.push(row.clone());
-        self.row_len = max(self.row_len, row.len());
+        self.row_len = self.row_len.max(row.len());
     }
 
     pub fn set_header(&mut self, header: Option<Row<T>>) -> &mut Self {
@@ -96,8 +94,19 @@ where
             .map(|(idx, w)| {
                 self.header
                     .clone()
-                    .and_then(|x| x.get(idx).map(|x| x.width()).map(|x| max(x, w)))
+                    .and_then(|x| x.get(idx).map(|x| x.width()).map(|x| x.max(w)))
                     .unwrap_or(w)
+            })
+            .map(|x| {
+                if let Style::Markdown = self.style {
+                    match self.align {
+                        Align::Center => x.max(3),
+                        Align::Left | Align::Right => x.max(2),
+                        Align::None => x,
+                    }
+                } else {
+                    x
+                }
             })
             .collect()
     }
@@ -138,7 +147,13 @@ where
                 let border = width_list
                     .clone()
                     .into_iter()
-                    .map(|x| frame.border.repeat(x))
+                    .map(|x| {
+                        if let Style::Markdown = self.style {
+                            frame.align_border(&self.align, x)
+                        } else {
+                            frame.border.repeat(x)
+                        }
+                    })
                     .collect::<Vec<_>>()
                     .join(&frame.center);
                 write!(f, "{}{}{}\n", frame.left, border, frame.right)?;

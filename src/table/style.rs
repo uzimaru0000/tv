@@ -1,3 +1,5 @@
+use super::cell::Align;
+
 #[derive(Debug, Clone, Copy)]
 pub enum Style {
     Plain,
@@ -34,6 +36,17 @@ pub struct Frame {
     pub top_right: String,
     pub bottom_left: String,
     pub bottom_right: String,
+}
+
+impl Frame {
+    pub fn align_border(&self, align: &Align, width: usize) -> String {
+        match align {
+            Align::None => self.border.repeat(width),
+            Align::Left => format!(":{}", self.border.repeat(width - 1)),
+            Align::Center => format!(":{}:", self.border.repeat(width - 2)),
+            Align::Right => format!("{}:", self.border.repeat(width - 1)),
+        }
+    }
 }
 
 impl From<Style> for Frame {
@@ -112,12 +125,3 @@ impl From<Style> for Frame {
         }
     }
 }
-
-// fn border(&self, width: usize) -> String {
-//     match self {
-//         Align::None => "-".repeat(width),
-//         Align::Left => format!(":{}", "-".repeat(width - 1)),
-//         Align::Center => format!(":{}:", "-".repeat(width - 2)),
-//         Align::Right => format!("{}:", "-".repeat(width - 1)),
-//     }
-// }

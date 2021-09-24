@@ -9,6 +9,7 @@ pub struct Application<'a, 'b> {
     app: App<'a, 'b>,
     path: Option<String>,
     sort_key: Option<String>,
+    pick: Option<String>,
     align: Align,
     style: Style,
     no_headers: bool,
@@ -58,6 +59,14 @@ impl<'a, 'b> Application<'a, 'b> {
                     .short("r")
                     .long("recursive")
                     .help("Recursive display"),
+            )
+            .arg(
+                Arg::with_name("pick")
+                    .short("p")
+                    .long("pick")
+                    .value_name("PICK FIELD")
+                    .help("Pick up field")
+                    .takes_value(true),
             );
 
         let matcher = app.clone().get_matches();
@@ -75,6 +84,7 @@ impl<'a, 'b> Application<'a, 'b> {
             .unwrap_or(Style::Ascii);
         let no_headers = matcher.is_present("no headers");
         let recursive = matcher.is_present("recursive");
+        let pick = matcher.value_of("pick").map(String::from);
 
         Self {
             app,
@@ -84,6 +94,7 @@ impl<'a, 'b> Application<'a, 'b> {
             style,
             no_headers,
             recursive,
+            pick,
         }
     }
 
@@ -103,6 +114,10 @@ impl<'a, 'b> Application<'a, 'b> {
         }?;
 
         let mut data = Data::from(&raw)?;
+
+        if let Some(key) = self.pick.clone() {
+            data = data.pick(key)?;
+        }
         data.set_sort_key(self.sort_key.clone());
 
         self.show(data);

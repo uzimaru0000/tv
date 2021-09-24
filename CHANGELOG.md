@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [v0.7.0](https://github.com/uzimaru0000/tv/releases/tag/v0.7.0) - 2021-09-24
+
+### Bug Fixes
+
+- :bug: fix header border in markdown style
+ ([c43c22e](https://github.com/uzimaru0000/tv/commit/c43c22ef31ea7e4b043a9dd7f5c7da95c3e2f636))
+- :bug: Set minimum width
+ ([83c7251](https://github.com/uzimaru0000/tv/commit/83c7251bff4ffc8b76856db83e7832431cb2fcca))
+
+### Features
+
+- :sparkles: Add an option to pick any field
+ ([fbca75a](https://github.com/uzimaru0000/tv/commit/fbca75aacb637f2e7bbc32afa1d1200341de285a))
+
 ## [v0.6.0](https://github.com/uzimaru0000/tv/releases/tag/v0.6.0) - 2021-09-20
 
 ### Bug Fixes

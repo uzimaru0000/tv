@@ -160,6 +160,35 @@ impl Data {
             })
             .collect()
     }
+
+    pub fn pick(&self, key: String) -> Result<Self> {
+        let keys = key.split(".").collect::<Vec<_>>();
+        let data = self
+            .data
+            .iter()
+            .filter_map(|x| match x {
+                Json::Object(obj) => {
+                    let (&head, tail) = keys.split_first()?;
+                    let init = obj.get(head)?;
+                    tail.iter().try_fold(init, |acc, &x| match acc {
+                        serde_json::Value::Object(obj) => obj.get(x),
+                        _ => None,
+                    })
+                }
+                _ => None,
+            })
+            .map(|x| match x {
+                serde_json::Value::Object(obj) => Json::Object(obj.clone()),
+                _ => Json::Value(x.clone()),
+            })
+            .collect::<Vec<_>>();
+
+        if data.is_empty() {
+            return Err(anyhow::Error::msg(format!("{} is not found", key)));
+        }
+
+        Ok(Self::new(data))
+    }
 }
 
 impl Into<Table<String>> for Data {

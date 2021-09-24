@@ -138,7 +138,13 @@ where
                 let border = width_list
                     .clone()
                     .into_iter()
-                    .map(|x| frame.border.repeat(x))
+                    .map(|x| {
+                        if let Style::Markdown = self.style {
+                            frame.align_border(&self.align, x)
+                        } else {
+                            frame.border.repeat(x)
+                        }
+                    })
                     .collect::<Vec<_>>()
                     .join(&frame.center);
                 write!(f, "{}{}{}\n", frame.left, border, frame.right)?;
